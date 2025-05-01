@@ -7,7 +7,6 @@ exports.login = (req, res) => {
     return res.status(400).send('Username and password are required');
   }
 
-  // Dummy user check — replace with DB logic later
   if (username === 'admin' && password === '1234') {
     const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return res.json({ token });
