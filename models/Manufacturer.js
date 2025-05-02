@@ -5,11 +5,11 @@ const ManufacturerSchema = new mongoose.Schema({
   category: { type: String, required: true },
   city: { type: String, required: true },
   products: {
-    type: [String],  // Ensure this is an array of strings
+    type: [String],  
     required: true,
     validate: {
       validator: function(arr) {
-        return arr.length > 0;  // Ensure that the products array is not empty
+        return arr.length > 0;  
       },
       message: 'Products array cannot be empty'
     }

@@ -1,9 +1,8 @@
-const Manufacturer = require('../models/Manufacturer');  // Only one declaration
+const Manufacturer = require('../models/Manufacturer');  
 
-// Get all manufacturers (with pagination)
 exports.getAllManufacturers = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;     // Default page = 1
-  const limit = parseInt(req.query.limit) || 10;  // Default limit = 10
+  const page = parseInt(req.query.page) || 1;     
+  const limit = parseInt(req.query.limit) || 10;  
 
   try {
     const manufacturers = await Manufacturer.find()
@@ -18,7 +17,7 @@ exports.getAllManufacturers = async (req, res) => {
   }
 };
 
-// Get one manufacturer by ID
+
 exports.getManufacturerById = async (req, res) => {
   try {
     const manufacturer = await Manufacturer.findById(req.params.id);
@@ -46,7 +45,7 @@ exports.addManufacturer = async (req, res) => {
 
     res.status(201).json(newManufacturer);
   } catch (error) {
-    console.error('Error adding manufacturer:', error);  // Log the full error for debugging
+    console.error('Error adding manufacturer:', error); 
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: 'Validation error', errors: error.errors });
     }
@@ -54,7 +53,7 @@ exports.addManufacturer = async (req, res) => {
   }
 };
 
-// Update a manufacturer
+
 exports.updateManufacturer = async (req, res) => {
   const { name, category, city, products } = req.body;
 
@@ -75,7 +74,7 @@ exports.updateManufacturer = async (req, res) => {
   }
 };
 
-// Delete a manufacturer
+
 exports.deleteManufacturer = async (req, res) => {
   try {
     const deleted = await Manufacturer.findByIdAndDelete(req.params.id);
