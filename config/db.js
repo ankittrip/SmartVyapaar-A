@@ -8,7 +8,7 @@ const connectDB = async () => {
       throw new Error('MONGO_URI not found in environment variables');
     }
 
-    await mongoose.connect(mongoURI); // No options needed in Mongoose 6+
+    await mongoose.connect(mongoURI); // Mongoose 6+
 
     console.log('MongoDB connected successfully');
   } catch (err) {

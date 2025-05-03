@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/authMiddleware');
 const Manufacturer = require('../models/Manufacturer');
 const mongoose = require('mongoose');
 
-// ✅ GET manufacturers with filtering, pagination, and sorting
+
 router.get('/', async (req, res) => {
   const {
     name,
@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ GET manufacturer by ID
+
 router.get('/:id', async (req, res) => {
   const manufacturerId = req.params.id;
 
@@ -69,7 +69,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// ✅ POST new manufacturer (Protected)
+
 router.post('/', verifyToken, async (req, res) => {
   const { name, category, city, products } = req.body;
 
@@ -93,7 +93,7 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
-// ✅ PUT update manufacturer by ID (Protected)
+
 router.put('/:id', verifyToken, async (req, res) => {
   const manufacturerId = req.params.id;
   const { name, category, city, products } = req.body;
@@ -130,7 +130,7 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// ✅ DELETE manufacturer by ID (Protected)
+
 router.delete('/:id', verifyToken, async (req, res) => {
   const manufacturerId = req.params.id;
 
