@@ -10,57 +10,34 @@ const Manufacturer = require('./models/Manufacturer');
 
 const app = express();
 
-
+// Middleware setup
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // To parse JSON data
 
-
+// Connect to the database
 connectDB();
 
+// Routes setup
+app.use('/api', loginRoutes); // Register the login route
+app.use('/manufacturers', manufacturerRoutes); // Manufacturer routes
 
-app.use('/api', loginRoutes);
-app.use('/manufacturers', manufacturerRoutes);
-
-
-app.post('/add-manufacturer', verifyToken, async (req, res) => {
-  const { name, category, city, products } = req.body;
-
-  if (!name || !category || !city) {
-    return res.status(400).json({ message: 'Please fill all reqired fields' });
-  }
-
-  try {
-    const newData = new Manufacturer({ name, category, city, products });
-    await newData.save();
-    res.status(201).json({ message: 'Manufacturer saved successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error saving manufacturer', error: error.message });
-  }
-});
+// Protected route example (add manufacturer)
 
 
+
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Somthing went wrong!' });
+  res.status(500).json({ message: 'Something went wrong!' });
 });
 
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
-
-
-app.use('/api', loginRoutes);
-app.use('/manufacturers', manufacturerRoutes);
-
+// Root route (just to test if server is running)
 app.get('/', (req, res) => {
   res.send('Welcome to the SmartVyapaar Backend API');
 });
 
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
