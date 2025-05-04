@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/authMiddleware');
 const Manufacturer = require('../models/Manufacturer');
 const mongoose = require('mongoose');
 
-
+// ✅ GET manufacturers with filtering, pagination, and sorting
 router.get('/', async (req, res) => {
   const {
     name,
@@ -48,6 +48,7 @@ router.get('/', async (req, res) => {
 });
 
 
+// ✅ GET a single manufacturer by ID
 router.get('/:id', async (req, res) => {
   const manufacturerId = req.params.id;
 
@@ -70,6 +71,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
+// ✅ POST a new manufacturer
 router.post('/', verifyToken, async (req, res) => {
   const { name, category, city, products } = req.body;
 
@@ -78,12 +80,17 @@ router.post('/', verifyToken, async (req, res) => {
   }
 
   for (let product of products) {
-    if (!product.name || !product.price) {
-      return res.status(400).json({ message: 'Each product must have a name and price' });
+    if (!product.name || typeof product.price !== 'number' || product.price <= 0) {
+      return res.status(400).json({ message: 'Each product must have a name and a valid price > 0' });
     }
   }
 
   try {
+    const existing = await Manufacturer.findOne({ name });
+    if (existing) {
+      return res.status(409).json({ message: 'Manufacturer with this name already exists' });
+    }
+
     const newManufacturer = new Manufacturer({ name, category, city, products });
     await newManufacturer.save();
     res.status(201).json({ message: 'Manufacturer created successfully' });
@@ -94,6 +101,7 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 
+// ✅ PUT update manufacturer
 router.put('/:id', verifyToken, async (req, res) => {
   const manufacturerId = req.params.id;
   const { name, category, city, products } = req.body;
@@ -107,8 +115,8 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 
   for (let product of products) {
-    if (!product.name || !product.price) {
-      return res.status(400).json({ message: 'Each product must have a name and price' });
+    if (!product.name || typeof product.price !== 'number' || product.price <= 0) {
+      return res.status(400).json({ message: 'Each product must have a name and a valid price > 0' });
     }
   }
 
@@ -131,6 +139,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 
+// ✅ DELETE a manufacturer
 router.delete('/:id', verifyToken, async (req, res) => {
   const manufacturerId = req.params.id;
 
