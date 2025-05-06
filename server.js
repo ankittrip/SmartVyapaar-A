@@ -17,7 +17,7 @@ connectDB();
 
 // Routes
 app.use('/api', loginRoutes);                 
-app.use('/manufacturers', manufacturerRoutes);
+app.use('/api/manufacturers', manufacturerRoutes);
 
 // Root Route
 app.get('/', (req, res) => {
