@@ -2,7 +2,7 @@ const Manufacturer = require('../models/Manufacturer');
 
 exports.getAllManufacturers = async (req, res) => {
   const page = parseInt(req.query.page) || 1;     
-  const limit = parseInt(req.query.limit) || 10;  
+  const limit = parseInt(req.query.limit) || 100;  
 
   try {
     const manufacturers = await Manufacturer.find()
