@@ -8,7 +8,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ankit Tripathi",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^2.2.0",
